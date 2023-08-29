@@ -50,7 +50,7 @@ export default function Navbar() {
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box><Link href={'/'}>Home</Link></Box>
+          <Box><Link href={'/'}>Shankara Vision</Link></Box>
           <Link href={'/about'}>About</Link>
           <Link href={'/main'}>Detect</Link>
 
