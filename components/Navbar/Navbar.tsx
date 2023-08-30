@@ -4,6 +4,7 @@ import {
   Box,
   Flex,
   Avatar,
+  HStack,
   Text,
   Button,
   Menu,
@@ -16,9 +17,17 @@ import {
   Stack,
   useColorMode,
   Center,
+  Icon,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { Link } from '@chakra-ui/next-js'
+import {
+  FaAmericanSignLanguageInterpreting,
+  FaQuestionCircle
+} from 'react-icons/fa'
+import {
+  MdLinkedCamera
+} from 'react-icons/md'
 
 interface Props {
   children: React.ReactNode
@@ -50,50 +59,54 @@ export default function Navbar() {
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box><Link href={'/'}>Shankara Vision</Link></Box>
-          <Link href={'/about'}>About</Link>
-          <Link href={'/main'}>Detect</Link>
+          
+          <HStack spacing={200} alignItems={'center'}>
+            <Box display="flex" alignItems="center">
+              <Link href={'/'} display="flex" alignItems="center">
+                <Icon as={FaAmericanSignLanguageInterpreting} boxSize={8} verticalAlign="middle" />
+                <Text ml={2} fontWeight="bold" fontSize="xl" verticalAlign="middle">
+                  Shankara Vision
+                </Text>
+              </Link>
+            </Box>
+            
+          </HStack>
 
           <Flex alignItems={'center'}>
+            
             <Stack direction={'row'} spacing={7}>
+            <Box display="flex" alignItems="center">
+              <Link href={'/about'}> <Icon as={FaQuestionCircle} boxSize={6} verticalAlign="middle" /></Link>
+            </Box>
+              <Link href={'/main'}>
+                <Button
+                  px={10}
+                  fontSize={'sm'}
+                  rounded={'full'}
+                  bg={'blue.400'}
+                  color={'white'}
+                  boxShadow={
+                    '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                  }
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                  _focus={{
+                    bg: 'blue.500',
+                  }}
+                  >
+                    <Icon as ={MdLinkedCamera} boxSize={6} marginRight={5}/> 
+                    Detect
+                </Button>
+              </Link>
+              
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                  <Avatar
-                    size={'sm'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
-                  />
-                </MenuButton>
-                <MenuList alignItems={'center'}>
-                  <br />
-                  <Center>
-                    <Avatar
-                      size={'2xl'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
-                    />
-                  </Center>
-                  <br />
-                  <Center>
-                    <p>Username</p>
-                  </Center>
-                  <br />
-                  <MenuDivider />
-                  <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
-                </MenuList>
-              </Menu>
             </Stack>
           </Flex>
         </Flex>
+
       </Box>
     </>
   )
