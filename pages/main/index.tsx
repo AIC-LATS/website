@@ -1,5 +1,7 @@
+import Main from '../../components/Main/Main'
+
 export default function Page() {
     return (
-    <h1>Hello, Detection Page!</h1>
+    <Main/>
     )
   }

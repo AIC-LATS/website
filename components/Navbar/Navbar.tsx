@@ -62,7 +62,7 @@ export default function Navbar() {
           
           <HStack spacing={200} alignItems={'center'}>
             <Box display="flex" alignItems="center">
-              <Link href={'/'} display="flex" alignItems="center">
+              <Link href={'/'} display="flex" alignItems="center" style={{ textDecoration: 'none' }}>
                 <Icon as={FaAmericanSignLanguageInterpreting} boxSize={8} verticalAlign="middle" />
                 <Text ml={2} fontWeight="bold" fontSize="xl" verticalAlign="middle">
                   Shankara Vision
