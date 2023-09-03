@@ -1,5 +1,9 @@
+import About from '../../components/About/About'
+
+
 export default function Page() {
+
     return (
-    <h1>Hello, About!</h1>
+      <About/>
     )
   }

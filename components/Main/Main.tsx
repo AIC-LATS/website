@@ -1,3 +1,4 @@
+'use client'
 import Webcam from "react-webcam";
 import {
     Box,
@@ -6,37 +7,116 @@ import {
     HStack,
     Text,
     Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
-    useDisclosure,
-    useColorModeValue,
     Stack,
-    useColorMode,
-    Center,
-    Icon,
     Grid,
     GridItem,
     Image
   } from '@chakra-ui/react'
 import { useState,
-        useEffect,
-    } from "react";
+        useRef
+} from "react";
+import {run_model} from "./Detection/runModel"
 
 
-export default function Main() {
+
+const Main = (props:any) => {
 
     const [isCameraOn, setIsCameraOn] = useState<boolean>(false);
+    const [probability, setProbability] = useState<number>(0);
+    const [letter, setLetter] = useState<string>("");
+    const [detectionTime, setDetectionTime] = useState<number>(0);
+    const [facingMode, setFacingMode] = useState<string>("environment");
+    const videoCanvasRef = useRef<HTMLCanvasElement>(null);
+    const liveDetection = useRef<boolean>(false);
+    const webcamRef = useRef<Webcam>(null);
+    const originalSize = useRef<number[]>([0, 0]);
+ 
+    const capture = () => {
+        const canvas = videoCanvasRef.current!;
+        if (!canvas) {
+            // Tambahkan penanganan kesalahan jika elemen canvas tidak ditemukan
+            throw new Error("Canvas element not found!");
+        }
+        const context = canvas.getContext("2d", {
+          willReadFrequently: true,
+        })!;
+    
+        if (facingMode === "user") {
+          context.setTransform(-1, 0, 0, 1, canvas.width, 0);
+        }
+    
+        context.drawImage(
+          webcamRef.current!.video!,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+       
+        if (facingMode === "user") {
+          context.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        return context;
+      };
 
-    const startDetection = () => {
+    const runModel = async (ctx: CanvasRenderingContext2D) => {
+        const data = props.preprocess(ctx);
+        let boxes: any[];
+        let detectTime: number;
+        let prob: number;
+        let str : string;
+        [boxes, detectTime, prob, str] = await run_model(
+            props.session.model,
+            props.session.nms,
+            data
+        )
+       
+        props.postprocess(boxes, ctx);
+        setDetectionTime(detectTime);
+        setProbability(prob);
+        setLetter(str);
+    };
+    
+    const startDetection = async () => {    
+        console.log("start")
         setIsCameraOn(true);
+        liveDetection.current = true;
+            while (liveDetection.current) {
+                try{
+                    const ctx = capture();
+                    if (!ctx) return;
+                    await runModel(ctx);
+                }
+                catch(err){
+                    console.log(err)
+                }
+                finally{
+                    // So can move to next frame
+                    await new Promise<void>((resolve) =>
+                    requestAnimationFrame(() => resolve())
+                    );
+                }
+          
+        }
+        
     }
 
-    const resetDetection = () => {
+    const resetDetection = async () => {
         setIsCameraOn(false);
+        liveDetection.current = false;
     }
+
+    const setWebcamCanvasOverlaySize = () => {
+        const element = webcamRef.current!.video!;
+        if (!element) return;
+        var width = element.offsetWidth;
+        var height = element.offsetHeight;
+        var cv = videoCanvasRef.current;
+        if (!cv) return;
+        cv.width = width;
+        cv.height = height;
+      };
+    
 
 
 
@@ -61,12 +141,42 @@ export default function Main() {
             >
                 {
                     isCameraOn ?(
+                        <Flex justifyContent={'center'}>
                         <Webcam
-                    audio={false}
-                    height={480}
-                    screenshotFormat="image/jpeg"
-                    width={640}
-                     />
+                        audio={false}
+                        height={480}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        width={640}
+                        videoConstraints={{
+                            facingMode: facingMode,
+                            // width: props.width,
+                            // height: props.height,
+                          }}
+                          onLoadedMetadata={() => {
+                            setWebcamCanvasOverlaySize();
+                            originalSize.current = [
+                              webcamRef.current!.video!.offsetWidth,
+                              webcamRef.current!.video!.offsetHeight,
+                            ] as number[];
+                          }}
+                          forceScreenshotSourceSize={true}
+                        />
+                        <canvas
+                        id="cv1"
+                        ref={videoCanvasRef}
+                        style={{
+                            position: "absolute",
+                            zIndex: 10,
+                            backgroundColor: "rgba(0,0,0,0)",
+                            
+                        }}
+                        width={640}
+                        height={480}
+                        ></canvas>
+                        </Flex>
+                        
+                     
                     ):
                     (
                        <Image src="https://bit.ly/3L3dOHx" width={640} height={480}></Image>
@@ -92,20 +202,17 @@ export default function Main() {
                 */}
                 <Flex justifyContent={'center'} marginTop={10}>
                     <Text ml={2} fontWeight="bold" fontSize="2xl" verticalAlign="middle" >
-                     Using model: yolov8.onnx
+                     Using model: yolov8n.onnx
                     </Text>
                 </Flex>
 
                 <Flex marginTop={5} justifyContent={'center'}>
                     <Stack spacing={3}>
                         <Text ml={2} fontWeight="bold" fontSize="lg" verticalAlign="middle" >
-                        Detection Time: 0.00s
+                        Detection Time: {isCameraOn ? detectionTime + "ms" : "-"}
                         </Text>
                         <Text ml={2} fontWeight="bold" fontSize="lg" verticalAlign="middle" >
-                        FPS: 0.00
-                        </Text>
-                        <Text ml={2} fontWeight="bold" fontSize="lg" verticalAlign="middle" >
-                        Total Frames: 0
+                        Probability: {isCameraOn ? probability + "%" : "-"}
                         </Text>
                     </Stack>
                 </Flex>
@@ -124,9 +231,10 @@ export default function Main() {
                             alignItems="center"
                             borderRadius="10px"
                             position="relative"
+                            height={50}
                             >
                             <Text fontWeight="bold" fontSize="4xl">
-                                A
+                                {letter}
                             </Text>
                             <Box
                                 position="absolute"
@@ -143,13 +251,14 @@ export default function Main() {
                 </Flex>
 
                 {/* 
-                Predicted Words
+                Predicted Words, to be developed soon...
                 */}
-                <Flex marginTop={20} justifyContent={'center'}>
-                    <Stack spacing={1}>
-                        <Text ml={2} fontWeight="bold" fontSize="4xl" verticalAlign="middle" >
+                {/* <Flex marginTop={20} justifyContent={'center'}>
+                    <Text ml={2} fontWeight="bold" fontSize="4xl" verticalAlign="middle" >
                         Predicted Words: 
-                        </Text>
+                    </Text>
+                </Flex>
+                <Flex marginTop={1} justifyContent={'center'}>
                         <Box
                             display="flex"
                             justifyContent="center"
@@ -157,23 +266,21 @@ export default function Main() {
                             borderRadius="10px"
                             width={700}
                             position="relative"
-                            backgroundColor={'gray.700'}
+                            bg = {useColorModeValue('gray.100', 'gray.700')}
                             >
                             <Text fontWeight="bold" fontSize="4xl">
                                 KENAPA BURUNG BISA TERBANG
                             </Text>
                         </Box>
-                    </Stack>   
-                </Flex>
+                        
+                     
+                </Flex> */}
             </GridItem>
         </Grid>
     </Box>
             
-            
-       
-    
-   
-
-
+        
     )
   }
+
+  export default Main;

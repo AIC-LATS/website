@@ -14,15 +14,26 @@
     "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@expo-google-fonts/julius-sans-one": "^0.2.3",
     "@types/node": "20.5.6",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "copy-webpack-plugin": "^11.0.0",
     "framer-motion": "^10.16.1",
+    "lodash": "^4.17.21",
+    "ndarray": "^1.0.19",
+    "ndarray-ops": "^1.2.2",
     "next": "13.4.19",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "onnxruntime-web": "^1.15.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-webcam": "^7.1.1",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@types/ndarray": "^1.0.11",
+    "@types/ndarray-ops": "^1.2.4"
   }
 }
