@@ -50,6 +50,15 @@ const NavLink = (props: Props) => {
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const handleButtonClick = () => {
+    
+
+    // Menambahkan delay selama 1 detik sebelum mengarahkan pengguna ke halaman "/main"
+    setTimeout(() => {
+      window.location.href = '/main'
+    }, 1000);
+  };
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -72,14 +81,14 @@ export default function Navbar() {
             <Stack direction={'row'} spacing={7}>
             <Box display="flex" alignItems="center">
               <Link href={'/about'}> <Icon as={FaQuestionCircle} boxSize={6} verticalAlign="middle" /></Link>
-            </Box>
-              <Link href={'/main'}>
+            </Box>         
                 <Button
                   px={10}
                   fontSize={'sm'}
                   rounded={'full'}
                   bg={'blue.400'}
                   color={'white'}
+                  onClick={handleButtonClick}
                   boxShadow={
                     '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
                   }
@@ -93,7 +102,6 @@ export default function Navbar() {
                     <Icon as ={MdLinkedCamera} boxSize={6} marginRight={5}/> 
                     Detect
                 </Button>
-              </Link>
               
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
