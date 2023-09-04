@@ -42,7 +42,7 @@ export default function About() {
                 </Text>
                 
                 <Text ml={2} fontWeight="bold" fontSize="xl" verticalAlign="middle">
-                <span className={jso.className}>Shankara Vision</span> is an open-source application that helps the deaf and people who have trouble with hearing.
+                <span className={jso.className}>Shankara Vision</span> is an open-source application that helps deaf people and people who cant speak normally.
                 </Text>
                 <Flex>
                   <Image src = "https://i.pinimg.com/736x/95/8f/03/958f039609fffe0e4a1d2d979aa3a096.jpg"/>
