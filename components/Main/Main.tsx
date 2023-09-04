@@ -16,6 +16,7 @@ import { useState,
         useRef
 } from "react";
 import {run_model} from "./Detection/runModel"
+import { set } from "lodash";
 
 
 
@@ -26,6 +27,7 @@ const Main = (props:any) => {
     const [letter, setLetter] = useState<string>("");
     const [detectionTime, setDetectionTime] = useState<number>(0);
     const [facingMode, setFacingMode] = useState<string>("environment");
+    const [fps, setFps] = useState<string>("");
     const videoCanvasRef = useRef<HTMLCanvasElement>(null);
     const liveDetection = useRef<boolean>(false);
     const webcamRef = useRef<Webcam>(null);
@@ -83,9 +85,13 @@ const Main = (props:any) => {
         liveDetection.current = true;
             while (liveDetection.current) {
                 try{
+                    let tic = Date.now();
                     const ctx = capture();
                     if (!ctx) return;
                     await runModel(ctx);
+                    const fps:number = 1000 / (Date.now() - tic);
+                    
+                    setFps(fps.toFixed(3));
                 }
                 catch(err){
                     console.log(err)
@@ -209,7 +215,10 @@ const Main = (props:any) => {
                 <Flex marginTop={5} justifyContent={'center'}>
                     <Stack spacing={3}>
                         <Text ml={2} fontWeight="bold" fontSize="lg" verticalAlign="middle" >
-                        Detection Time: {isCameraOn ? detectionTime + "ms" : "-"}
+                        Detection Time: {isCameraOn ? detectionTime + " ms" : "-"}
+                        </Text>
+                        <Text ml={2} fontWeight="bold" fontSize="lg" verticalAlign="middle" >
+                        FPS: {isCameraOn ? fps + " fps" : "-"}
                         </Text>
                         <Text ml={2} fontWeight="bold" fontSize="lg" verticalAlign="middle" >
                         Probability: {isCameraOn ? probability + "%" : "-"}

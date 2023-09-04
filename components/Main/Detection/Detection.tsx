@@ -1,6 +1,7 @@
 
 
 import { Tensor, InferenceSession } from "onnxruntime-web";
+import _ from 'lodash';
 import ndarray from "ndarray";
 import ops from "ndarray-ops";
 import { round } from "lodash";

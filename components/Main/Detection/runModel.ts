@@ -1,4 +1,5 @@
 import { InferenceSession, Tensor } from "onnxruntime-web";
+import _ from 'lodash';
 
 
 export async function run_model(
@@ -13,7 +14,7 @@ export async function run_model(
     new Float32Array([
       1, // topk per class
       0.40, // iou threshold
-      0.5, // probability score threshold
+      0.6, // probability score threshold
     ])
   );
   
