@@ -10,7 +10,7 @@ Shankara Vision is an open-source application that helps people who have trouble
   <img src="public/detection.png">
 </p>
 
-This app based on [American Sign Language(ASL)](https://www.nidcd.nih.gov/health/american-sign-language) and utilizes a Deep Convolutional Neural Network (CNN) to detect sign language. The app is deployed on a website platform. 
+There are more than 900 thousand Indonesians who have difficulty hearing according to the Indonesian Central Statistics Agency (BPSI) in 2022. This app based on [American Sign Language(ASL)](https://www.nidcd.nih.gov/health/american-sign-language) and utilizes a Deep Convolutional Neural Network (CNN) to detect sign language. The app is deployed on a website platform. 
 
 ## Run It Locally
 1. Clone this repository
