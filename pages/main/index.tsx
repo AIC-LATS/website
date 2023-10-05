@@ -1,7 +1,7 @@
-import Detection from '../../components/Main/Detection/Detection'
+import Main from '@/components/Main/Main'
 
 export default function Page() {
     return (
-      <Detection/>
+      <Main/>
     )
   }

@@ -57,10 +57,10 @@ export default function Navbar() {
     // Menambahkan delay selama 1 detik sebelum mengarahkan pengguna ke halaman "/main"
     setTimeout(() => {
       window.location.href = '/main'
-    }, 1000);
+    }, 0);
   };
   return (
-    <>
+    <Box boxShadow="md">
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           
@@ -111,6 +111,6 @@ export default function Navbar() {
         </Flex>
 
       </Box>
-    </>
+    </Box>
   )
 }

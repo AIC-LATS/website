@@ -45,10 +45,17 @@ export default function About() {
                 <span className={jso.className}>Shankara Vision</span> is an open-source application that helps deaf people and people who cant speak normally.
                 </Text>
                 <Flex>
-                  <Image src = "https://i.pinimg.com/736x/95/8f/03/958f039609fffe0e4a1d2d979aa3a096.jpg"/>
+                  <Image
+                    src="https://i.pinimg.com/736x/95/8f/03/958f039609fffe0e4a1d2d979aa3a096.jpg"
+                    maxW="300px" // Atur lebar maksimum sesuai kebutuhan Anda
+                    maxH="200px" // Atur tinggi maksimum sesuai kebutuhan Anda
+                  />
                   &nbsp;
-                  <Image src = "https://media.istockphoto.com/id/165792328/vector/sign-language-letter-a-b-c-d-e.jpg?s=612x612&w=0&k=20&c=KZFf9Vfaebt_Wqk89ddNYE9v2S-8Y3OuGexuSIVAqFc="/>
-
+                  <Image
+                    src="https://media.istockphoto.com/id/165792328/vector/sign-language-letter-a-b-c-d-e.jpg?s=612x612&w=0&k=20&c=KZFf9Vfaebt_Wqk89ddNYE9v2S-8Y3OuGexuSIVAqFc="
+                    maxW="300px" // Atur lebar maksimum sesuai kebutuhan Anda
+                    maxH="200px" // Atur tinggi maksimum sesuai kebutuhan Anda
+                  />
                 </Flex>
                
 
