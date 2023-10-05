@@ -38,11 +38,11 @@ There are more than 900 thousand Indonesians who have difficulty hearing accordi
 
 ## Paper reference
 
-[UAV Detection using Web Application Approach based on SSD Pre-Trained Model](https://ieeexplore.ieee.org/document/9665191)
-[A Web-Based Application for Identifying Objects In Images: Object Recognition Software](https://ieeexplore.ieee.org/document/8932735)
-[TensorFlow.js: Machine Learning for the Web and Beyond](https://arxiv.org/abs/1901.05350)
-[You Only Look Once: Unified, Real-Time Object Detection](https://pjreddie.com/media/files/papers/yolo_1.pdf)
-[A survey on Image Data Augmentation for Deep Learning](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-019-0197-0?ref=blog.roboflow.com)
+- [UAV Detection using Web Application Approach based on SSD Pre-Trained Model](https://ieeexplore.ieee.org/document/9665191)
+- [A Web-Based Application for Identifying Objects In Images: Object Recognition Software](https://ieeexplore.ieee.org/document/8932735)
+- [TensorFlow.js: Machine Learning for the Web and Beyond](https://arxiv.org/abs/1901.05350)
+- [You Only Look Once: Unified, Real-Time Object Detection](https://pjreddie.com/media/files/papers/yolo_1.pdf)
+- [A survey on Image Data Augmentation for Deep Learning](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-019-0197-0?ref=blog.roboflow.com)
 
 
 ## Author

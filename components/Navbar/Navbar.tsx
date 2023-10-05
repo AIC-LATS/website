@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Box,
   Flex,
@@ -28,43 +26,27 @@ interface Props {
   children: React.ReactNode
 }
 
-const NavLink = (props: Props) => {
-  const { children } = props
-
-  return (
-    <Box
-      as="a"
-      px={2}
-      py={1}
-      rounded={'md'}
-      _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}
-      href={'#'}>
-      {children}
-    </Box>
-  )
-}
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleButtonClick = () => {
-    
-
-    // Menambahkan delay selama 1 detik sebelum mengarahkan pengguna ke halaman "/main"
     setTimeout(() => {
       window.location.href = '/main'
     }, 0);
   };
+  
   return (
     <Box boxShadow="md">
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          
-          <HStack spacing={200} alignItems={'center'}>
+        <Flex 
+          h={16} 
+          alignItems={'center'} 
+          justifyContent={'space-between'}
+          mx="auto"     // Pusatkan Navbar pada tampilan desktop
+        >
+          <HStack spacing={4} alignItems={'center'}>
             <Box display="flex" alignItems="center">
               <Link href={'/'} display="flex" alignItems="center" style={{ textDecoration: 'none' }}>
                 <Icon as={FaAmericanSignLanguageInterpreting} boxSize={8} verticalAlign="middle" />
@@ -73,15 +55,15 @@ export default function Navbar() {
                 </Text>
               </Link>
             </Box>
-            
           </HStack>
 
           <Flex alignItems={'center'}>
-            
-            <Stack direction={'row'} spacing={7}>
-            <Box display="flex" alignItems="center">
-              <Link href={'/about'}> <Icon as={FaQuestionCircle} boxSize={6} verticalAlign="middle" /></Link>
-            </Box>         
+            <Box display={{ base: 'none', md: 'block' }}>
+              {/* Tampilkan hanya pada tampilan desktop */}
+              <Stack direction={'row'} spacing={7}>
+                <Box display="flex" alignItems="center">
+                  <Link href={'/about'}> <Icon as={FaQuestionCircle} boxSize={6} verticalAlign="middle" /></Link>
+                </Box>         
                 <Button
                   px={10}
                   fontSize={'sm'}
@@ -98,18 +80,26 @@ export default function Navbar() {
                   _focus={{
                     bg: 'blue.500',
                   }}
-                  >
-                    <Icon as ={MdLinkedCamera} boxSize={6} marginRight={5}/> 
-                    Detect
+                >
+                  <Icon as ={MdLinkedCamera} boxSize={6} marginRight={5}/> 
+                  Detect
                 </Button>
               
-              <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              </Button>
-            </Stack>
+                <Button onClick={toggleColorMode}>
+                  {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                </Button>
+              </Stack>
+            </Box>
+
+            <Button
+              ml={4}
+              onClick={onOpen}
+              display={{ base: 'block', md: 'none' }} // Tampilkan hanya pada tampilan mobile
+            >
+              Menu
+            </Button>
           </Flex>
         </Flex>
-
       </Box>
     </Box>
   )
