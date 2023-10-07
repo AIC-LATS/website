@@ -8,7 +8,7 @@ import labels from "./labels.json";
  * @param {Array} classes_data class array
  * @param {Array[Number]} ratios boxes ratio [xRatio, yRatio]
  */
-export const renderBoxes = (canvasRef : any, box_data : any, score_data : any, class_data : any, ratios: any) => {
+export const renderBoxes = (canvasRef : any, box_data : any, score_data : any, class_data : any, ratios: any, actualw : any, actualh: any) => {
   const ctx = canvasRef.getContext("2d");
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // clean canvas
 
@@ -28,10 +28,11 @@ export const renderBoxes = (canvasRef : any, box_data : any, score_data : any, c
     const score = (score_data * 100).toFixed(1);
 
     let [y1, x1, y2, x2] = box_data
-    x1 *= ratios[0]*640/480;
-    x2 *= ratios[0]*640/480;
-    y1 *= ratios[1];
-    y2 *= ratios[1];
+    console.log(actualh, actualw);
+    x1 *= ratios[0]*actualw/480;
+    x2 *= ratios[0]*actualw/480;
+    y1 *= ratios[1]*actualh/480;
+    y2 *= ratios[1]*actualh/480;
     const width = x2 - x1;
     const height = y2 - y1;
 

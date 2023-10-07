@@ -14,7 +14,6 @@ const numClass = labels.length;
  */
 const preprocess = (source : any, modelWidth : any, modelHeight : any) => {
   let xRatio, yRatio; // ratios for boxes
-
   const input = tf.tidy(() => {
  
     const img = tf.browser.fromPixels(source);
@@ -50,12 +49,10 @@ const preprocess = (source : any, modelWidth : any, modelHeight : any) => {
  */
 export const detect = async (source : any, model : any, canvasRef : any) => {
   const [modelWidth, modelHeight] = model.inputShape.slice(1, 3); // get model width and height
-  console.log({backend: tf.getBackend()});
-
-
+  const [width0, height0] = [source.width, source.height]; // get source width and height
   tf.engine().startScope(); // start scoping tf engine
   const [input, xRatio, yRatio] = preprocess(source, modelWidth, modelHeight); // preprocess image
-  
+ 
   const res = model.net.execute(input); // inference model
   const transRes = res.transpose([0, 2, 1]); // transpose result [b, det, n] => [b, n, det]
   const boxes : any = tf.tidy(() => {
@@ -91,7 +88,7 @@ export const detect = async (source : any, model : any, canvasRef : any) => {
     const max_idx = scores_data.indexOf(Math.max(...scores_data)); // get max score index
     const max_box = boxes_data.slice(max_idx * 4, (max_idx + 1) * 4); // get max box
     const max_class = classes_data[max_idx]; // get max class
-    renderBoxes(canvasRef, max_box, scores_data[max_idx], max_class, [xRatio, yRatio]); // render boxes
+    renderBoxes(canvasRef, max_box, scores_data[max_idx], max_class, [xRatio, yRatio],width0,height0); // render boxes
     tf.dispose([res, transRes, boxes, scores, classes, nms]); // clear memory
     tf.engine().endScope(); // end of scoping
     return [labels[max_class], scores_data[max_idx]]; // return class and score

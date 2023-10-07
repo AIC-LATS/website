@@ -48,7 +48,7 @@ const Main2 = (props:any) => {
     const originalSize = useRef<number[]>([0, 0]);
     const isFirstTime = useRef<boolean>(true);
     
-    const modelName = "yolov8n";
+    const modelName = "best_web_model";
     const modelPath = `../${modelName}/model.json`
           // model configs
   
@@ -267,7 +267,7 @@ const Main2 = (props:any) => {
                     */}
                     <Flex justifyContent={'center'} marginTop={10}>
                         <Text ml={2} fontWeight="bold" fontSize="2xl" verticalAlign="middle" >
-                         Using model: yolov8n.onnx
+                         Using model: yolov8n.tfjs
                         </Text>
                     </Flex>
     
