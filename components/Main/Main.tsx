@@ -48,7 +48,7 @@ const Main2 = (props:any) => {
     const originalSize = useRef<number[]>([0, 0]);
     const isFirstTime = useRef<boolean>(true);
     
-    const modelName = "best_web_model";
+    const modelName = "yolov8n";
     const modelPath = `../${modelName}/model.json`
           // model configs
   
